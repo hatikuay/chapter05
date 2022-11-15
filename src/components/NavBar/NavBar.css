@@ -1,0 +1,14 @@
+.Title {
+  text-align: center;
+  flex-basis: 60%;
+}
+.Title:first-child {
+  margin-left: 20%;
+}
+.Title:last-child {
+  margin-right: 20%;
+}
+
+.NavBarButton {
+  margin: 10px 5%;
+}
