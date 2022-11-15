@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {createContext} from 'react';
 
-export const ItemsContext = React.createContext();
-
-const initialValue = {
+const initialValue:Value = {
   items: [],
   loading: true,
   error: '',
 };
 
-const reducer = (value, action) => {
+
+
+export const ItemsContext = createContext<Value>(initialValue);
+
+const reducer = (value:Value, action) => {
   switch (action.type) {
     case 'GET_ITEMS_SUCCESS':
       return {

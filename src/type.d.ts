@@ -25,10 +25,20 @@ type FormProps = {
 }
 
 type List = {
-    id:number;
-    title:string;
-} 
+    id: number;
+    title: string;
+}
 
-type ListsProps = { 
-    history:any 
+type ListsProps = {
+    history: any
+}
+
+type Item = {
+    itemid: number;
+}
+
+type Value = {
+    items: Array<Item>;
+    loading: boolean;
+    error: string;
 }
