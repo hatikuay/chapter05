@@ -1,44 +1,39 @@
-type FormItemProps = {
-    id: string;
-    label: string;
-    type: string;
-    placeholder: string;
-    value: string;
-    handleOnChange: (e: any) => {},
-}
-
-type Data = {
-    title: string;
-    quantity: string;
-    price: string;
-}
-
-type NavBarProps = {
-    goBack?: (e: any) => {};
-    title: string;
-    openForm?: (e: any) => {};
-}
-
-type FormProps = {
-    match: string;
-    history: string;
+type Item = {
+    id?: number,
+    listId: number | string | undefined,
+    title: string,
+    quantity: number,
+    price: number
 }
 
 type List = {
-    id: number;
+    id: number,
+    title: string,
+}
+
+type FormItemProps = {
+    id: string;
+    label: string;
+    type?: string;
+    placeholder: string;
+    value: string | number;
+    handleOnChange: (event:React.ChangeEvent<HTMLInputElement>) => void,
+}
+
+type NavBarProps = {
+    goBack?: () => void;
     title: string;
+    openForm?: () => void;
 }
 
-type ListsProps = {
-    history: any
+type AppContextProps = {
+    children: Array<JSX.Element> | JSX.Element
 }
 
-type Item = {
-    itemid: number;
+type ItemsContextProviderProps = {
+    children: Array<JSX.Element> | JSX.Element
 }
 
-type Value = {
-    items: Array<Item>;
-    loading: boolean;
-    error: string;
+type ListsContextProviderProviderProps = {
+    children: Array<JSX.Element> | JSX.Element
 }

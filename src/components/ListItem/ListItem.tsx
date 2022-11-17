@@ -1,32 +1,11 @@
 import React, {FC} from 'react';
+import "./ListItem.css"
 
-const ListItemWrapper = { 
-  display: "flex",
-  TextAlign: "left",
-  alignItems: "center",
-  //padding: "1%",
-  backgroundColor: "lightGray",
-  borderRadius: "5px",
-  padding: "10px",
-  marginBottom: "2%",
-  textDecoration: "none",
-}
-
-const Title = {
-  flexBasis: "70%",
-}
-
-const Total = {
-  flexBasis: "15%",
-  fontWeight: "bold",
-  TextAlign: "right",
-}
-
-const ListItem:FC<Data> = (props:Data) => (
-  <div style={ListItemWrapper}>
-    <h3 style={Title}>{props.title}</h3>
-    <span style={Total}>{`Quantity: ${props.quantity}`}</span>
-    <span style={Total}>{`$ ${props.price}`}</span>
+const ListItem:FC<Item> = (props:Item) => (
+  <div className='ListItemWrapper'>
+    <h3 className='Title'>{props.title}</h3>
+    <span className='Total'>{`Quantity: ${props.quantity}`}</span>
+    <span className='Total'>{`$ ${props.price}`}</span>
   </div>
 );
 

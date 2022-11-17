@@ -1,65 +1,33 @@
-import React, {FC, useContext} from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ListsContext } from '../context/ListsContextProvider';
+import { ListsContext } from '../context/ListsContext';
 import NavBar from '../components/NavBar/NavBar';
+import { useNavigate, useParams } from 'react-router-dom';
+import "./List.css"
 
-const ListWrapper = {
-  display: "flex",
-  justifyContent: "space-between",
-  FlexDirection: "column",
-  margin: "5%",
-}
+const Lists = () => {
+  let navigate = useNavigate();
+  const { loading, error, lists, fetchLists } = useContext(ListsContext);
 
-const ListLink = {
-  display: "flex",
-  TextAlign: "left",
-  alignItems: "center",
-  //padding: "1%",
-  backgroundCpolor: "lightGray",
-  borderRadius: "5px",
-  padding: "10px",
-  marginBottom: "2%",
-  color: "black",
-  textDecoration: "none",
-} 
-//styled(Link)
+  useEffect(() => {
+    !lists.length && fetchLists()
+  }, [fetchLists, lists])
 
-const Title = {
-  flexBasis: "80%",
-} 
-//styled.h3
-
-const Alert = {
-  width: "100%",
-  TextAlign: "center",
-} 
-//styled.span
-
-
-const Lists:FC<ListsProps> = (props:ListsProps) => {
-  const { lists, loading, error, getListsRequest } = React.useContext(
-    ListsContext,
-  );
-  React.useLayoutEffect(() => {
-    if (!lists.length) {
-      getListsRequest();
-    }
-  }, [getListsRequest, lists]);
-
-  return !loading && !error ? (
+  return (
     <>
-      {props.history && <NavBar title='Your Lists' />}
-      <div style={ListWrapper}>
-        {lists &&
-          lists.map(list => (
-            <Link style={ListLink} key={list.id} to={`list/${list.id}`}>
-              <h3 style={Title}>{list.title}</h3>
+      {<NavBar title='Your Lists' />}
+      <div className='ListWrapper'>
+        {loading || error ? (
+          <span>{error || 'Loading...'}</span>
+        ) : (
+          lists.map((list) => (
+            <Link className='ListLink' key={list.id} to={`list/${list.id}`}>
+              <h3 className='Title'>{list.title}</h3>
             </Link>
-          ))}
+          ))
+        )}
       </div>
     </>
-  ) : (
-    <span style={Alert}>{loading ? 'Loading...' : error}</span>
   );
 };
 export default Lists;

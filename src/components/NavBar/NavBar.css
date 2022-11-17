@@ -11,4 +11,22 @@
 
 .NavBarButton {
   margin: 10px 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: orange;
+  color: white;
+  padding: 10px;
+  line-height: 2;
+  border-radius: 5px;
+  border: 0;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.NavBarWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background: navajowhite;
 }

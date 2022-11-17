@@ -1,42 +1,38 @@
-import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-import { Route, Switch } from 'react-router-dom';
-import GlobalContext from '../context/GlobalContext';
-import Header from '../components/Header/Header';
-import Lists from './Lists';
-import List from './List';
-import Form from './Form';
+import { Suspense, lazy } from 'react';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import Header from './components/Header/Header';
+import AppContext from './context/AppContext';
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-`;
+const Lists = lazy(() => import('./pages/Lists'));
+const ListDetail = lazy(() => import('./pages/ListDetail'));
+const ListForm = lazy(() => import('./pages/ListForm'));
 
-const AppWrapper = styled.div`
-  text-align: center;
-`;
+const GlobalStyle = {
+  margin: "0",
+  padding: "0",
+  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+  ebkitFontSmoothing: "antialiased",
+  MozOsxFontSmoothing: "grayscale",
+}
 
-const App = () => (
-  <>
-    <GlobalStyle />
-    <AppWrapper>
-      <Header />
-      <GlobalContext>
-        <Switch>
-          <Route exact path='/' component={Lists} />
-          <Route path='/list/:id/new' component={Form} />
-          <Route path='/list/:id' component={List} />
-        </Switch>
-      </GlobalContext>
-    </AppWrapper>
-  </>
-);
-
+function App() {
+  return (
+    <div style={GlobalStyle}>
+      <div style={{textAlign: "center"}}>
+        <BrowserRouter>
+          <Header />
+          <Suspense fallback={<div>Loading...</div>}>
+            <AppContext>
+              <Routes>
+                <Route path='/' element={<Lists />} />
+                <Route path='/list/:listId/new' element={<ListForm />} />
+                <Route path='/list/:listId' element={<ListDetail />} />
+              </Routes>
+            </AppContext>
+          </Suspense>
+        </BrowserRouter>
+      </div>
+    </div>
+  );
+}
 export default App;

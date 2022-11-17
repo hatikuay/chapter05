@@ -1,52 +1,51 @@
-import React, {useContext, useState, FC} from 'react';
-import { ItemsContext } from '../context/ItemsContextProvider';
-import FormItem from '../components/FormItem/FormItem';
-import Button from '../components/Button/Button';
+import React, { useState, useContext, FC } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import NavBar from '../components/NavBar/NavBar';
+import FormItem from '../components/FormItem/FormItem';
+import ItemsContext from '../context/ItemsContext';
+import "./List.css"
 
-const FormWrapper = {
-  display: "flex",
-  justifyContent: "space-between",
-  FlexDirection: "column",
-  margin: "2% 5%",
-}
 
-const SubmitButton = {
-  backgroundColor: "blue",
-  margin: "2% 0",
-}
+const ListForm = () => {
+  
+  let navigate = useNavigate();
+  const { listId } = useParams();
 
-const Form:FC<FormProps> = (props:FormProps) => {
-  const { addItemRequest } = useContext(ItemsContext);
-  const [title, setTitle]= useState('');
-  const [quantity, setQuantity]= useState('');
-  const [price, setPrice]= useState('');
+  const [title, setTitle] = useState('');
+  const [quantity, setQuantity] = useState(0);
+  const [price, setPrice] = useState(0);
 
-  const handleOnSubmit = (e:any) => {
+  const { addItem } = useContext(ItemsContext);
+
+  function onSubmit(e:any) {
     e.preventDefault();
-    addItemRequest({
-      title,
-      quantity,
-      price,
-      id: Math.floor(Math.random() * 100),
-      listId: parseInt(props.match.params.id),
-    });
-    props.history.goBack();
-  };
+
+    if (title && quantity && price) {
+      addItem({
+        title,
+        quantity,
+        price,
+        listId,
+      });
+    }
+
+    navigate(`/list/${listId}`);
+    
+  }
 
   return (
     <>
-      {history && (
-        <NavBar goBack={() => props.history.goBack()} title='Add Item' />
+      {(
+        <NavBar goBack={() => navigate(-1)} title='Add Item' />
       )}
-      <div style={FormWrapper}>
-        <form onSubmit={handleOnSubmit}>
+      <div className='FormWrapper'>
+        <form onSubmit={onSubmit}>
           <FormItem
             id='title'
             label='Title'
             placeholder='Insert title'
             value={title}
-            handleOnChange={setTitle}
+            handleOnChange={(event:React.ChangeEvent<HTMLInputElement>) => setTitle(event.currentTarget.value)}
           />
           <FormItem
             id='quantity'
@@ -54,7 +53,7 @@ const Form:FC<FormProps> = (props:FormProps) => {
             type='number'
             placeholder='0'
             value={quantity}
-            handleOnChange={setQuantity}
+            handleOnChange={(event:React.ChangeEvent<HTMLInputElement>) => setQuantity(parseInt(event.currentTarget.value))}
           />
           <FormItem
             id='price'
@@ -62,13 +61,13 @@ const Form:FC<FormProps> = (props:FormProps) => {
             type='number'
             placeholder='0.00'
             value={price}
-            handleOnChange={setPrice}
+            handleOnChange={(event:React.ChangeEvent<HTMLInputElement>) => setPrice(parseInt(event.currentTarget.value))}
           />
-          <SubmitButton>Add Item</SubmitButton>
+          <button className='SubmitButton'>Add Item</button>
         </form>
       </div>
     </>
   );
 };
 
-export default Form;
+export default ListForm;

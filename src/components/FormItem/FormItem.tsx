@@ -1,41 +1,21 @@
 import React, { FC } from 'react';
-
-const FormItemWrapper = {
-  display: "flex",
-  TextAlign: "left",
-  FlexDirection: "column",
-  marginBottom: "2%",
-}
-
-const Label = {
-  display: "block",
-  fontWeight: "bold",
-  padding: "10px 0",
-}
-
-const Input = {
-  flexBasis: "60%",
-  fontSize: "inherit",
-  borderRadius: "5px",
-  padding: "10px",
-  border: "1px solid lightGrey",
-}
+import "./FormItem.css"
 
 const FormItem: FC<FormItemProps> = (props: FormItemProps) => {
   
-  props.type = 'text';
-  props.placeholder = '';
+  /*props.type = 'text';
+  props.placeholder = '';*/
 
   return (
-    <div style={FormItemWrapper} >
-      <label style={Label} htmlFor={props.id}>{props.label}</label>
-      <input style={Input}
+    <div className='FormItemWrapper' >
+      <label className='Label' htmlFor={props.id}>{props.label}</label>
+      <input className='Input'
         type={props.type}
         name={props.id}
         id={props.id}
         placeholder={props.placeholder}
         value={props.value}
-        onChange={e => props.handleOnChange(e.target.value)}
+        onChange={props.handleOnChange}
       />
     </div>);
 }
